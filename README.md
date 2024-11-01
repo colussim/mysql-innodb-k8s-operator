@@ -422,6 +422,7 @@ That’s great 😀 ! We now have an external address, and I can access it from 
 
 Your MySQL InnoDB cluster is operational. You can now deploy an application either outside the Kubernetes cluster or within it.
 If you want to deploy a simple application, [here](https://github.com/colussim/demo-ecommerce) is an example.
+We could also explore the MySQLBackup resource of the Operator,this will likely be covered in a future article.
 
 ## Conclusion
 In conclusion, deploying a MySQL InnoDB cluster using the MySQL Operator for Kubernetes significantly simplifies the process. We have outlined the various steps involved, highlighting the ease of use and efficiency gained through leveraging an Operator. However, it's important to acknowledge that our Operator is not without its limitations – there are still some functionalities that need to be addressed for a more robust deployment experience. We are committed to continuously evolving the Operator, with the aim of enhancing its capabilities and addressing user feedback. Your input is invaluable as we work towards improving the deployment experience for everyone.
