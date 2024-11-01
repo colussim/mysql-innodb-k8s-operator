@@ -18,9 +18,10 @@ This document will guide you through the deployment process of a MySQL InnoDB Cl
 ## Prerequisites
 Before you get started, you’ll need to have these things:
 - An operational Kubernetes cluster.
--  Installed kubectl command-line tool.
--  A Oracle container registry account .
--  bash version 4+
+- Installed kubectl command-line tool.
+- A Oracle container registry account .
+- bash version 4+
+- mysqlshell or mysql client installed
 
 ## Create a named secret containing Oracle Cloud Infrastructure credentials
 
