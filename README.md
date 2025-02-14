@@ -121,7 +121,7 @@ There are several methods for deploying the MySQL Operator: through manifest fil
 image:
   registry: container-registry.oracle.com
   repository: mysql
-  name: enterprise-operator  # Use 'enterprise-operator' for corporate image
+  name: enterprise-operator  # Use 'enterprise-operator' for enterprise image
   pullPolicy: IfNotPresent
   tag: "latest" 
   pullSecrets:
