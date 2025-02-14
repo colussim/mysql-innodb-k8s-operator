@@ -114,6 +114,8 @@ You can also create a secret based on existing credentials. See [Create a Secret
 
 ## Installation
 There are several methods for deploying the MySQL Operator: through manifest files or via HELM, which is the package manager for Kubernetes. We will use the first method, using manifest files.
+
+---
 > If you want to use Helm, please follow the instructions [here](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-installation-helm.html). For the deployment of the Enterprise version (which is the case in this document), you should create a values.yaml file to specify the Enterprise image.
 >
 > An example of the values.yaml :
@@ -129,6 +131,16 @@ image:
     secretName: oracle-registry-secret  # Replace with the name of your secret
 
 ```
+> **Add the Helm repository:** 
+>
+> helm repo add mysql-operator https://mysql.github.io/mysql-operator/
+> helm repo update
+>
+> **Install MySQL Operator for Kubernetes :**
+>
+> helm install my-mysql-operator mysql-operator/mysql-operator --namespace mysql-operator -f values.yaml
+>
+---
 
 First deploy the Custom Resource Definition (CRDs):
 ```bash
