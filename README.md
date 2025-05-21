@@ -218,7 +218,7 @@ kubectl -n mysql-operator apply -f scripts/ora-cont-secret.yaml
 
 
 
-✅ **Step3:** Deployment  MySQ LInnoDB Cluster
+✅ **Step3:** Deployment  MySQL InnoDB Cluster
 
 The MySQL Operator has two types of resources :
 - InnoDBCluster
