@@ -104,7 +104,7 @@ kubectl -n mysql-operator apply -f scripts/ora-cont-secret.yaml
    
 ```
 
-You can also create a secret based on existing credentials. See [Create a Secret based on existing credentials](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#registry-secret-existing-credentials.)
+You can also create a secret based on existing credentials. See [Create a Secret based on existing credentials](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#registry-secret-existing-credentials.) or [Install MySQL Operator for Kubernetes from a Private Registry](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-private-registeries.html).
 
 > We will also apply this secret in our namespace where our MySQL instances will be deployed. We could also have used an external-secret method to share this secret across different namespaces, or extensions like:
 > - <a href="" target="_reflector">reflector</a> with support for auto secret reflection
@@ -154,7 +154,7 @@ image:
 First deploy the Custom Resource Definition (CRDs):
 ```bash
 
- kubectl apply -f https://raw.githubusercontent.com/mysql/mysql-operator/9.1.0-2.2.2/deploy/deploy-crds.yaml
+ kubectl apply -f https://raw.githubusercontent.com/mysql/mysql-operator/9.3.0-2.2.4/deploy/deploy-crds.yaml
  
 ```
 
