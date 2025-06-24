@@ -252,7 +252,7 @@ spec:
   secretName: mysql-secret
   tlsUseSelfSigned: true
   instances: 3
-  version: 9.1.0
+  version: 9.3.0
   imagePullSecrets:
     - name: oracle-registry-secret
   router:
