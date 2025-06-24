@@ -113,10 +113,19 @@ You can also create a secret based on existing credentials. See [Create a Secret
 
 
 ## Installation
-There are several methods for deploying the MySQL Operator: through manifest files or via HELM, which is the package manager for Kubernetes. We will use the first method, using manifest files.
+There are several methods for deploying the MySQL Operator: through manifest files or via HELM, which is the package manager for Kubernetes. We will use the first method, using manifest files.By default, the manifest deploys the community version of the operator.
 
 ---
-> If you want to use Helm, please follow the instructions [here](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-installation-helm.html). For the deployment of the Enterprise version (which is the case in this document), you should create a values.yaml file to specify the Enterprise image.
+> If you want to use Helm, please follow the instructions [here](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-installation-helm.html). For deploying the Enterprise version (which is the case in this document), you need to create a values.yaml file to specify the Enterprise image or modify the deploy-operator.yaml file to set the correct image, in the section: 
+
+```yaml
+containers:
+  - name: mysql-operator
+    image: community-operator or enterprise-operator
+```
+
+and configure your Docker registry (or Oracle's one).
+
 >
 > An example of the values.yaml :
 ```yaml

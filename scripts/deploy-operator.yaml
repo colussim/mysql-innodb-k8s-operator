@@ -92,13 +92,35 @@ rules:
     verbs: ["get", "patch"]
   - apiGroups: ["mysql.oracle.com"]
     resources: ["innodbclusters"]
-    verbs: ["get", "watch", "list"]
+    verbs: ["get", "watch", "list", "patch"]
   - apiGroups: ["mysql.oracle.com"]
     resources: ["mysqlbackups"]
     verbs: ["create", "get", "list", "patch", "update", "watch", "delete"]
   - apiGroups: ["mysql.oracle.com"]
     resources: ["mysqlbackups/status"]
     verbs: ["get", "patch", "update", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: mysql-switchover
+rules:
+  # Kopf needs patch on secrets or the sidecar will throw
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "patch", "update"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get"]
+  - apiGroups: ["mysql.oracle.com"]
+    resources: ["innodbclusters"]
+    verbs: ["get"]
+  - apiGroups: ["mysql.oracle.com"]
+    resources: ["innodbclusters/status"]
+    verbs: ["get", "patch"]
 ---
 # Give access to the operator
 apiVersion: rbac.authorization.k8s.io/v1
@@ -124,6 +146,11 @@ metadata:
   name: mysql-operator
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: mysql-operator
+---
+apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: mysql-operator-sa
@@ -138,7 +165,7 @@ metadata:
     version: "1.0"
     app.kubernetes.io/name: mysql-operator
     app.kubernetes.io/instance: mysql-operator
-    app.kubernetes.io/version: 9.1.0-2.2.2
+    app.kubernetes.io/version: 9.3.0-2.2.4
     app.kubernetes.io/component: controller
     app.kubernetes.io/managed-by: mysql-operator
     app.kubernetes.io/created-by: mysql-operator
@@ -154,11 +181,9 @@ spec:
     spec:
       securityContext:
         runAsNonRoot: true
-      imagePullSecrets:
-      - name: oracle-registry-secret   
       containers:
         - name: mysql-operator
-          image: container-registry.oracle.com/mysql/enterprise-operator:9.1.0-2.2.2
+          image: container-registry.oracle.com/mysql/enterprise-operator:9.3.0-2.2.4
           imagePullPolicy: IfNotPresent
           args:
             [
@@ -173,8 +198,6 @@ spec:
               value: /mysqlsh
             - name: MYSQLSH_CREDENTIAL_STORE_SAVE_PASSWORDS
               value: never
-            - name: MYSQL_OPERATOR_K8S_CLUSTER_DOMAIN  
-              value: cluster.local
           readinessProbe:
             exec:
               command:
