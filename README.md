@@ -236,6 +236,9 @@ The MySQL Operator has two types of resources :
 > In this document, we will cover only the InnoDBCluster type.
 > To learn the details of each type, I encourage you to check this link: <a href="https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-properties.html" target="_docs">MySQL Operator Custom Resource Properties</a>
 
+> ❗️ **For the Enterprise Edition only:** MySQL Operator for Kubernetes now supports creating backups to cloud storage using the MySQL Enterprise Backup tool, and restoring such backups to server instances in InnoDB Clusters. Backups can be one-off or scheduled, and both full and incremental backups are supported.
+> MySQL Operator for Kubernetes now supports the creation of InnoDB ClusterSet, which consists of a primary InnoDB Cluster and zero or more replica clusters.
+
 We will use this manifest file to deploy 3 MySQL database instances and 3 MySQL Router instances,also defines storage requirements for a PersistentVolumeClaim (PVC) set.
 
 05-deploy.yaml:
