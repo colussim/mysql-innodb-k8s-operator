@@ -1,4 +1,4 @@
- ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)![Static Badge](https://img.shields.io/badge/MySQL_Operator-V9.1.0-blue:)
+ ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)![Static Badge](https://img.shields.io/badge/MySQL_Operator-V9.3.0-blue:)
 ## Deploy a MySQL InnoDB Cluster on Kubernetes with MySQL Operator .
 
 
