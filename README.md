@@ -12,7 +12,7 @@ Kubernetes has become the standard for orchestrating containerized applications,
 This document will guide you through the deployment process of a MySQL InnoDB Cluster on Kubernetes using the MySQL Operator. By following this guide, you will learn how to set up, configure, and manage your MySQL clusters within a Kubernetes environment, leveraging the benefits of automation to ensure high availability and fault tolerance.
 
 
-![mysql-operator-architecture.png](imgs/mysql-operator-architecture.png)
+![mysql-operator-architecture.png](imgs/mysql_operator_architecture.png)
 
 
 
@@ -152,6 +152,34 @@ image:
 ---
 
 First deploy the Custom Resource Definition (CRDs):
+
+```mermaid
+flowchart TD
+  subgraph User
+    U1[Run: kubectl apply -f deploy-crds.yaml]
+    U2[Run: kubectl apply -f deploy-operator.yaml]
+  end
+
+  subgraph K8s_API
+    CRD_Def[Create CustomResourceDefinitions]
+    Operator_Deploy[Deploy Operator + RBAC]
+  end
+
+  subgraph Namespace[NS: mysql-operator]
+    Deployment[Deployment: mysql-operator]
+    Pods[Pod - mysql-operator]
+  end
+
+  U1 --> CRD_Def
+  U2 --> Operator_Deploy
+
+  CRD_Def --> K8s_API
+  Operator_Deploy --> K8s_API
+
+  K8s_API --> Deployment
+  Deployment --> Pods
+  ```
+
 ```bash
 
  kubectl apply -f https://raw.githubusercontent.com/mysql/mysql-operator/9.3.0-2.2.4/deploy/deploy-crds.yaml
@@ -192,6 +220,37 @@ Now that our operator is deployed, we will be able to deploy our InnoDB cluster.
 
 ## MySQL InnoDB Cluster Installation
 
+```mermaid
+flowchart TD
+    subgraph User
+        U1[Apply InnoDBCluster CRD YAML]
+    end
+
+    subgraph K8s_API
+        R1[Register InnoDBCluster resource]
+    end
+
+    subgraph MySQL_Operator
+        C1[Detect InnoDBCluster resource]
+        C2[Create StatefulSet for MySQL Pods]
+        C3[Create Deployment for MySQL Routers]
+        C4[Create Services and ConfigMaps]
+    end
+
+    subgraph Namespace["Namespace: mysql"]
+        SS[StatefulSet - MySQL Instances]
+        Pods[MySQL Pods - mysqld]
+        Routers[Deployment - MySQL Routers]
+        Services[Cluster Services]
+    end
+
+    U1 --> R1
+    R1 --> C1
+    C1 --> C2 --> SS --> Pods
+    C1 --> C3 --> Routers
+    C1 --> C4 --> Services
+```
+
 ✅ **Step1:** Create a namespace
 
 ```bash
@@ -229,9 +288,10 @@ kubectl -n mysql-operator apply -f scripts/ora-cont-secret.yaml
 
 ✅ **Step3:** Deployment  MySQL InnoDB Cluster
 
-The MySQL Operator has two types of resources :
+The MySQL Operator has three types of resources :
 - InnoDBCluster
 - MySQLBackup
+- ClusterSet
 
 > In this document, we will cover only the InnoDBCluster type.
 > To learn the details of each type, I encourage you to check this link: <a href="https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-properties.html" target="_docs">MySQL Operator Custom Resource Properties</a>
