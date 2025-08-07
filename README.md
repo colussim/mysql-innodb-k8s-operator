@@ -449,7 +449,22 @@ No default schema selected; type \use <schema> to set one.
 
 ```
 
-Using root@dbcluster01 connection assumes the default namespace is used,the long form is  *{innodbclustername}.{namespace}.svc.cluster.local.* 
+Using root@dbcluster01 connection assumes the default namespace is used,the long form is :
+
+```
+ {innodbclustername}.{namespace}.svc.cluster.local.*
+ ```
+If your Kubernetes cluster uses a custom Cluster domain, replace *cluster.local* with your cluster’s domain.
+For example, if your cluster domain is k8sdemos2.local, the full hostname becomes:
+
+```
+ {innodbClusterName}.{namespace}.svc.k8sdemos2.local.*
+ ```
+
+You can check your cluster’s DNS domain by inspecting the clusterDomain setting, if configured, or checking your CoreDNS config:
+```
+kubectl -n kube-system get configmap coredns -o yaml
+ ```
 
 Verify the cluster's status:
 ```bash
