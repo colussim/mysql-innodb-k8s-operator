@@ -124,7 +124,16 @@ containers:
     image: community-operator or enterprise-operator
 ```
 
-and configure your Docker registry (or Oracle's one).
+and configure your Docker registry (or Oracle's one).Here is an example using the Oracle registry, referencing the secret we previously created :
+
+```yaml
+containers:
+   - name: mysql-operator
+     image: container-registry.oracle.com/mysql/enterprise-operator:latest
+....
+imagePullSecrets:
+        - name: oracle-registry-secret
+```
 
 >
 > An example of the values.yaml :
@@ -149,6 +158,30 @@ image:
 >
 > helm install my-mysql-operator mysql-operator/mysql-operator --namespace mysql-operator -f values.yaml
 >
+---
+**⚠️ Known Issue: Cluster Domain Detection**
+
+There is a known issue with the Oracle MySQL Operator where it often fails to detect the Kubernetes cluster domain automatically.
+
+If you encounter an error like Failed to detect cluster domain, you need to explicitly specify the domain in the operator deployment.
+
+
+Edit the deploy-operator.yaml file and add the following environment variable under the env: section of the Deployment:
+
+```yaml
+- name: MYSQL_OPERATOR_K8S_CLUSTER_DOMAIN
+  value: "your_cluster_domain"
+
+```
+
+If you’re deploying the operator using Helm, you can set the cluster domain via the following parameter:
+
+```yaml
+
+--set env.MYSQL_OPERATOR_K8S_CLUSTER_DOMAIN=your_cluster_domain
+
+```
+
 ---
 
 First deploy the Custom Resource Definition (CRDs):
@@ -182,7 +215,7 @@ flowchart TD
 
 ```bash
 
- kubectl apply -f https://raw.githubusercontent.com/mysql/mysql-operator/9.3.0-2.2.4/deploy/deploy-crds.yaml
+ kubectl apply -f https://raw.githubusercontent.com/mysql/mysql-operator/9.4.0-2.2.5//deploy/deploy-crds.yaml
  
 ```
 
