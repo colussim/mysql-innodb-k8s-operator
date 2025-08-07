@@ -313,7 +313,7 @@ Apply Oracle Container Registry secret:
 
 ```bash
 
-kubectl -n mysql-operator apply -f scripts/ora-cont-secret.yaml
+kubectl -n mysqldb01 apply -f scripts/ora-cont-secret.yaml
    
 ```
 
@@ -345,7 +345,7 @@ spec:
   secretName: mysql-secret
   tlsUseSelfSigned: true
   instances: 3
-  version: 9.3.0
+  version: 9.4.0
   imagePullSecrets:
     - name: oracle-registry-secret
   router:
