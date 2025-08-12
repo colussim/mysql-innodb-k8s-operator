@@ -1,4 +1,4 @@
- ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)![Static Badge](https://img.shields.io/badge/MySQL_Operator-V9.3.0-blue:)
+ ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)![Static Badge](https://img.shields.io/badge/MySQL_Operator-V9.4.0-blue:)
 ## Deploy a MySQL InnoDB Cluster on Kubernetes with MySQL Operator .
 
 
@@ -14,6 +14,25 @@ This document will guide you through the deployment process of a MySQL InnoDB Cl
 
 ![mysql-operator-architecture.png](imgs/mysql_operator_architecture.png)
 
+
+## ⚠️ Behavior notice (MySQL Operator 9.4 for Kubernetes)
+
+> When you deploy an **InnoDBCluster**, the Operator **automatically creates a
+> ClusterSet** with the **same name** as the cluster.
+>
+> **Implications**
+> - You may see a `ClusterSet` resource even if you only asked for a single cluster.
+> - **Deleting the ClusterSet will also delete the associated InnoDBCluster.**
+> - Plan your naming accordingly and avoid removing the ClusterSet unless you intend
+>   to remove the cluster as well.
+>
+> **Why this happens (at a high level)**
+> - The Operator prepares for future scale‑out (adding replica clusters) without extra steps.
+>
+> **Recommendation**
+> - If you want a standalone setup, simply keep the auto‑created ClusterSet and
+>   operate your single cluster as usual. If you plan multi‑site later, you can attach
+>   additional clusters to this ClusterSet.
 
 
 ## Prerequisites
